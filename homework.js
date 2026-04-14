@@ -345,12 +345,15 @@ function generateOrderReport(orders) {
  */
 function groupOrdersByPayment(orders) {
   // 請實作此函式
-  return {
-    ATM: orders.filter((order) => order.user.payment === "ATM"),
-    "Credit Card": orders.filter(
-      (order) => order.user.payment === "Credit Card",
-    ),
-  };
+  return orders.reduce((acc, order) => {
+    const paymentMethod = order.user.payment;
+    if (!acc[paymentMethod]) {
+      acc[paymentMethod] = [];
+    }
+    acc[paymentMethod].push(order);
+
+    return acc;
+  }, {});
 }
 
 // ========================================
