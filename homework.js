@@ -214,28 +214,48 @@ function isProductInCart(carts, productId) {
  * @returns {Array} - 回傳新的購物車陣列（不要修改原陣列）
  * 如果產品已存在，合併數量；如果不存在，新增一筆
  */
+// function addToCart(carts, product, quantity) {
+//   // 請實作此函式
+//   const existedProduct = carts.find((item) => item.product.id === product.id);
+//   if (existedProduct) {
+//     return carts.map((item) => {
+//       if (item.product.id === product.id) {
+//         return {
+//           ...item,
+//           quantity: item.quantity + quantity,
+//         };
+//       }
+//       return item;
+//     });
+//   } else {
+//     const copyProducts = carts.map((item) => ({ ...item }));
+//     copyProducts.push({
+//       id: `cart-${copyProducts.length + 1}`,
+//       product,
+//       quantity,
+//     });
+//     return copyProducts;
+//   }
+// }
 function addToCart(carts, product, quantity) {
   // 請實作此函式
-  const existedProduct = carts.find((item) => item.product.id === product.id);
-  if (existedProduct) {
-    return carts.map((item) => {
-      if (item.product.id === product.id) {
-        return {
-          ...item,
-          quantity: item.quantity + quantity,
-        };
-      }
-      return item;
-    });
+  const newCarts = [...carts];
+  const productIndex = carts.findIndex(
+    (item) => item.product.id === product.id,
+  );
+  if (productIndex !== -1) {
+    newCarts[productIndex] = {
+      ...newCarts[productIndex],
+      quantity: newCarts[productIndex].quantity + quantity,
+    };
   } else {
-    const copyProducts = carts.map((item) => ({ ...item }));
-    copyProducts.push({
-      id: `cart-${copyProducts.length + 1}`,
+    newCarts.push({
+      id: `cart-${newCarts.length + 1}`,
       product,
       quantity,
     });
-    return copyProducts;
   }
+  return newCarts;
 }
 
 /**
